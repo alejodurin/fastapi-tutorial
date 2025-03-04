@@ -5,20 +5,20 @@ from model import Todo, TodoItem
 todo_router = APIRouter()
 todo_list = []
 @todo_router.post("/todo")
-async def add_todo(todo: Todo) -> dict:
+async def agregar_todo(todo: Todo) -> dict:
     todo_list.append(todo)
     return {
         "mensaje": "Todo agregado exitosamente."
     }
 
 @todo_router.get("/todo")
-async def retrieve_todo() -> dict:
+async def obtener_todo() -> dict:
    return {
      "todos": todo_list
     }
 
 @todo_router.get("/todo/{todo_id}")
-async def get_single_todo(todo_id: int = Path(title="El ID de Todo a buscar")) -> dict:
+async def obtener_un_todo(todo_id: int = Path(title="El ID de Todo a buscar")) -> dict:
     for todo in todo_list:
         if todo.id == todo_id:
            return {
@@ -29,7 +29,7 @@ async def get_single_todo(todo_id: int = Path(title="El ID de Todo a buscar")) -
     }
 
 @todo_router.put("/todo/{todo_id}")
-async def update_todo(todo_data: TodoItem, todo_id: int = Path(title="El ID de Todo para actualizar")) -> dict:
+async def actualizar_todo(todo_data: TodoItem, todo_id: int = Path(title="El ID de Todo para actualizar")) -> dict:
     for todo in todo_list:
        if todo.id == todo_id:
           todo.item = todo_data.item
@@ -42,7 +42,7 @@ async def update_todo(todo_data: TodoItem, todo_id: int = Path(title="El ID de T
 
 
 @todo_router.delete("/todo/{todo_id}")
-async def delete_single_todo(todo_id: int) -> dict:
+async def borrar_un_todo(todo_id: int) -> dict:
     for index in range(len(todo_list)):
         todo = todo_list[index]
         if todo.id == todo_id:
@@ -55,7 +55,7 @@ async def delete_single_todo(todo_id: int) -> dict:
     }
 
 @todo_router.delete("/todo")
-async def delete_all_todo() -> dict:
+async def borrar_todo() -> dict:
     todo_list.clear()
     return {
         "mensaje": "Todos borrados exitosamente."
